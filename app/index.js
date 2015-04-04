@@ -1,9 +1,9 @@
-var util = require('util'),
-	path = require('path'),
-	_ = require('lodash'),
-	utils = require('keystone-utils'),
-	colors = require('colors'),
-	yeoman = require('yeoman-generator');
+var util   = require('util');
+var path   = require('path');
+var _      = require('lodash');
+var utils  = require('keystone-utils');
+var colors = require('colors');
+var yeoman = require('yeoman-generator');
 
 
 var KeystoneGenerator = module.exports = function KeystoneGenerator(args, options, config) {
@@ -26,22 +26,18 @@ var KeystoneGenerator = module.exports = function KeystoneGenerator(args, option
 	var done = _.bind(function done() {
 		var cmd = (this.newDirectory ? '"cd ' + utils.slug(this.projectName) + '" then ' : '') + '"node keystone"';
 		console.log(
-			'\n------------------------------------------------' +
-			'\n' +
-			'\nYour KeystoneJS project is ready to go!' +
-			'\n' +
+			'\n------------------------------------------------\n' +
+			'\nYour KeystoneJS project is ready to go!\n' +
 			'\nFor help getting started, visit http://keystonejs.com/guide' +
 
 			((this.usingTestMandrillAPI) ?
-				'\n' +
-				'\nWe\'ve included a test Mandrill API Key, which will simulate email' +
+				'\n\nWe\'ve included a test Mandrill API Key, which will simulate email' +
 				'\nsending but not actually send emails. Please replace it with your own' +
 				'\nwhen you are ready.'
 				: '') +
 
 			((this.usingDemoCloudinaryAccount) ?
-				'\n' +
-				'\nWe\'ve included a demo Cloudinary Account, which is reset daily.' +
+				'\n\nWe\'ve included a demo Cloudinary Account, which is reset daily.' +
 				'\nPlease configure your own account or use the LocalImage field instead' +
 				'\nbefore sending your site live.'
 				: '') +
@@ -83,29 +79,29 @@ KeystoneGenerator.prototype.prompts = function prompts() {
 				message: 'What is the name of your project?',
 				default: 'My Site'
 			}, {
-				name: 'viewEngine',
-				message: 'Would you like to use Jade, Swig, Nunjucks or Handlebars for templates? ' + (('[jade | swig | nunjucks | hbs]').grey),
-				default: 'jade'
-			}, {
-				name: 'preprocessor',
-				message: 'Would you like to use LESS or SASS for stylesheets? ' + (('[less | sass]').grey),
-				default: 'less'
-			}, {
-				type: 'confirm',
-				name: 'includeBlog',
-				message: 'Would you like to include a Blog?',
-				default: true
-			}, {
-				type: 'confirm',
-				name: 'includeGallery',
-				message: 'Would you like to include an Image Gallery?',
-				default: true
-			}, {
-				type: 'confirm',
-				name: 'includeEnquiries',
-				message: 'Would you like to include a Contact Form?',
-				default: true
-			}, {
+			// 	name: 'viewEngine',
+			// 	message: 'Would you like to use Jade, Swig, Nunjucks or Handlebars for templates? ' + (('[jade | swig | nunjucks | hbs]').grey),
+			// 	default: 'jade'
+			// }, {
+			// 	name: 'preprocessor',
+			// 	message: 'Would you like to use LESS or SASS for stylesheets? ' + (('[sass | less]').grey),
+			// 	default: 'sass'
+			// }, {
+			// 	type: 'confirm',
+			// 	name: 'includeBlog',
+			// 	message: 'Would you like to include a Blog?',
+			// 	default: true
+			// }, {
+			// 	type: 'confirm',
+			// 	name: 'includeGallery',
+			// 	message: 'Would you like to include an Image Gallery?',
+			// 	default: true
+			// }, {
+			// 	type: 'confirm',
+			// 	name: 'includeEnquiries',
+			// 	message: 'Would you like to include a Contact Form?',
+			// 	default: true
+			// }, {
 				name: 'userModel',
 				message: 'What would you like to call the User model?',
 				default: 'User'
@@ -118,21 +114,21 @@ KeystoneGenerator.prototype.prompts = function prompts() {
 				message: 'Enter a password for the first Admin user:',
 				default: 'admin'
 			}, {
-				name: 'taskRunner',
-				message: 'Would you like to include gulp or grunt? ' + (('[gulp | grunt]').grey),
-			}, {
+			// 	name: 'taskRunner',
+			// 	message: 'Would you like to include gulp or grunt? ' + (('[gulp | grunt]').grey),
+			// }, {
 				type: 'confirm',
 				name: 'newDirectory',
 				message: 'Would you like to create a new directory for your project?',
 				default: true
-			}, {
-				type: 'confirm',
-				name: 'includeEmail',
-				message: '------------------------------------------------' +
-					'\n    KeystoneJS integrates with Mandrill (from Mailchimp) for email sending.' +
-					'\n    Mandrill accounts are free for up to 12k emails per month.' +
-					'\n    Would you like to include Email configuration in your project?',
-				default: true
+			// }, {
+			// 	type: 'confirm',
+			// 	name: 'includeEmail',
+			// 	message: '------------------------------------------------' +
+			// 		'\n    KeystoneJS integrates with Mandrill (from Mailchimp) for email sending.' +
+			// 		'\n    Mandrill accounts are free for up to 12k emails per month.' +
+			// 		'\n    Would you like to include Email configuration in your project?',
+			// 	default: true
 			}
 		],
 		
@@ -148,83 +144,82 @@ KeystoneGenerator.prototype.prompts = function prompts() {
 		
 		// Keep an unescaped version of the project name
 		this._projectName = this.projectName;
+		
 		// ... then escape it for use in strings (most cases)
-		this.projectName = utils.escapeString(this.projectName);
-		this.adminLogin = utils.escapeString(this.adminLogin);
+		this.projectName   = utils.escapeString(this.projectName);
+		this.adminLogin    = utils.escapeString(this.adminLogin);
 		this.adminPassword = utils.escapeString(this.adminPassword);
 		
-		// Clean the viewEngine selection
-		if (_.contains(['handlebars', 'hbs', 'h'], this.viewEngine.toLowerCase().trim())) {
-			this.viewEngine = 'hbs';
-		} else if (_.contains(['swig', 's'], this.viewEngine.toLowerCase().trim())) {
-			this.viewEngine = 'swig';
-		} else if (_.contains(['nunjucks', 'nun', 'n'], this.viewEngine.toLowerCase().trim())) {
-			this.viewEngine = 'nunjucks';
-		} else {
-			this.viewEngine = 'jade';
-		}
+		// Only using react
+		this.viewEngine = 'jsx';
 
-		// Clean the preprocessor
-		if (_.contains(['sass', 's'], this.preprocessor.toLowerCase().trim())) {
-			this.preprocessor = 'sass';
-		} else {
-			this.preprocessor = 'less';
-		}
+		// Due to lack of understanding of less, sass is the only option
+		this.preprocessor = 'sass';
+
+		// This is to include the posts model, which is MVP for this generator
+		this.includeBlog = true;
+
+		// gallery, enquiries and email are not MVP
+		this.includeGallery = false;
+		this.includeEnquiries = false;
+		this.includeEmail = false;
+
 		
 		// Clean the userModel name
-		this.userModel = utils.camelcase(this.userModel, false);
+		this.userModel     = utils.camelcase(this.userModel, false);
 		this.userModelPath = utils.keyToPath(this.userModel, true);
 		
-		// Clean the taskRunner selection
-		this.taskRunner = (this.taskRunner || '').toLowerCase().trim();
+		// Using webpack, but gulp to bridge my webpack gap
+		this.taskRunner = 'gulp';
 
 		// Create the directory if required
 		if (this.newDirectory) {
 			this.destinationRoot(utils.slug(this.projectName));
 		}
 		
+		// Not need at this stage
 		// Additional prompts may be required, based on selections
-		if (this.includeBlog || this.includeGallery || this.includeEmail) {
+		// if (this.includeBlog || this.includeGallery || this.includeEmail) {
 			
-			if (this.includeEmail) {
-				prompts.config.push({
-					name: 'mandrillAPI',
-					message: '------------------------------------------------' +
-						'\n    Please enter your Mandrill API Key (optional).' +
-						'\n    See http://keystonejs.com/guide/config/#mandrill for more info.' +
-						'\n    ' +
-						'\n    You can skip this for now (we\'ll include a test key instead)' +
-						'\n    ' +
-						'\n    Your Mandrill API Key:'
-				});
-			}
+		// 	if (this.includeEmail) {
+		// 		prompts.config.push({
+		// 			name: 'mandrillAPI',
+		// 			message: '------------------------------------------------' +
+		// 				'\n    Please enter your Mandrill API Key (optional).' +
+		// 				'\n    See http://keystonejs.com/guide/config/#mandrill for more info.' +
+		// 				'\n    ' +
+		// 				'\n    You can skip this for now (we\'ll include a test key instead)' +
+		// 				'\n    ' +
+		// 				'\n    Your Mandrill API Key:'
+		// 		});
+		// 	}
 			
-			if (this.includeBlog || this.includeGallery) {
+		// 	if (this.includeBlog || this.includeGallery) {
 				
-				var blog_gallery = 'blog and gallery templates';
+		// 		var blog_gallery = 'blog and gallery templates';
 				
-				if (!this.includeBlog) {
-					blog_gallery = 'gallery template';
-				} else if (!this.includeGallery) {
-					blog_gallery = 'blog template';
-				}
+		// 		if (!this.includeBlog) {
+		// 			blog_gallery = 'gallery template';
+		// 		} else if (!this.includeGallery) {
+		// 			blog_gallery = 'blog template';
+		// 		}
 				
-				prompts.config.push({
-					name: 'cloudinaryURL',
-					message: '------------------------------------------------' +
-						'\n    KeystoneJS integrates with Cloudinary for image upload, resizing and' +
-						'\n    hosting. See http://keystonejs.com/docs/configuration/#services-cloudinary for more info.' +
-						'\n    ' +
-						'\n    CloudinaryImage fields are used by the ' + blog_gallery + '.' +
-						'\n    ' +
-						'\n    You can skip this for now (we\'ll include demo account details)' +
-						'\n    ' +
-						'\n    Please enter your Cloudinary URL:'
-				});
+		// 		prompts.config.push({
+		// 			name: 'cloudinaryURL',
+		// 			message: '------------------------------------------------' +
+		// 				'\n    KeystoneJS integrates with Cloudinary for image upload, resizing and' +
+		// 				'\n    hosting. See http://keystonejs.com/docs/configuration/#services-cloudinary for more info.' +
+		// 				'\n    ' +
+		// 				'\n    CloudinaryImage fields are used by the ' + blog_gallery + '.' +
+		// 				'\n    ' +
+		// 				'\n    You can skip this for now (we\'ll include demo account details)' +
+		// 				'\n    ' +
+		// 				'\n    Please enter your Cloudinary URL:'
+		// 		});
 				
-			}
+		// 	}
 			
-		}
+		// }
 		
 		if (!prompts.config.length) {
 			return cb();
@@ -236,15 +231,15 @@ KeystoneGenerator.prototype.prompts = function prompts() {
 				this[key] = val;
 			}, this);
 			
-			if (this.includeEmail && !this.mandrillAPI) {
-				this.usingTestMandrillAPI = true;
-				this.mandrillAPI = 'NY8RRKyv1Bure9bdP8-TOQ';
-			}
+			// if (this.includeEmail && !this.mandrillAPI) {
+			// 	this.usingTestMandrillAPI = true;
+			// 	this.mandrillAPI = 'NY8RRKyv1Bure9bdP8-TOQ';
+			// }
 			
-			if (!this.cloudinaryURL && (this.includeBlog || this.includeGallery)) {
-				this.usingDemoCloudinaryAccount = true;
-				this.cloudinaryURL = 'cloudinary://333779167276662:_8jbSi9FB3sWYrfimcl8VKh34rI@keystone-demo';
-			}
+			// if (!this.cloudinaryURL && (this.includeBlog || this.includeGallery)) {
+			// 	this.usingDemoCloudinaryAccount = true;
+			// 	this.cloudinaryURL = 'cloudinary://333779167276662:_8jbSi9FB3sWYrfimcl8VKh34rI@keystone-demo';
+			// }
 			
 			cb();
 			
@@ -307,6 +302,10 @@ KeystoneGenerator.prototype.project = function project() {
 	
 };
 
+
+/*
+ * Builds the model files based on handlebars tempates and values from the prompts
+*/
 KeystoneGenerator.prototype.models = function models() {
 	
 	var modelFiles = [];
@@ -336,126 +335,85 @@ KeystoneGenerator.prototype.models = function models() {
 
 KeystoneGenerator.prototype.routes = function routes() {
 	
+	// Copy React Router Component rendering function
+	this.copy('ReactRouterComponentRenderingEngine.js', './ReactRouterComponentRenderingEngine.js');
+
+
+	// Create react routes file
+	this.template('templates/default-react/_routes.jsx', 'app/routes.jsx');
+	
 	this.mkdir('routes');
-	this.mkdir('routes/views');
-	
 	this.template('routes/_index.js', 'routes/index.js');
-	this.template('routes/_middleware.js', 'routes/middleware.js');
+
+	this.mkdir('routes/api');
+	this.copy('routes/api/index.js', 'routes/api/index.js');
 	
-	if (this.includeEmail) {
-		this.template('routes/_emails.js', 'routes/emails.js');
-	}
+	// this.template('routes/_index.js', 'routes/index.js');
+	// this.template('routes/_middleware.js', 'routes/middleware.js');
 	
-	this.copy('routes/views/index.js');
+	// if (this.includeEmail) {
+	// 	this.template('routes/_emails.js', 'routes/emails.js');
+	// }
 	
-	if (this.includeBlog) {
-		this.copy('routes/views/blog.js');
-		this.copy('routes/views/post.js');
-	}
+	// this.copy('routes/views/index.js');
 	
-	if (this.includeGallery) {
-		this.copy('routes/views/gallery.js');
-	}
+	// if (this.includeBlog) {
+	// 	this.copy('routes/views/blog.js');
+	// 	this.copy('routes/views/post.js');
+	// }
 	
-	if (this.includeEnquiries) {
-		this.copy('routes/views/contact.js');
-	}
+	// if (this.includeGallery) {
+	// 	this.copy('routes/views/gallery.js');
+	// }
+	
+	// if (this.includeEnquiries) {
+	// 	this.copy('routes/views/contact.js');
+	// }
 	
 };
 
 KeystoneGenerator.prototype.templates = function templates() {
 	
-	if (this.viewEngine === 'hbs') {
-		
-		// Copy Handlebars Templates
-		
-		this.mkdir('templates');
-		this.mkdir('templates/views');
-		
-		this.directory('templates/default-hbs/views/layouts', 'templates/views/layouts');
-		this.directory('templates/default-hbs/views/helpers', 'templates/views/helpers');
-		this.directory('templates/default-hbs/views/partials', 'templates/views/partials');
-		
-		this.template('templates/default-hbs/views/index.hbs', 'templates/views/index.hbs');
-		
-		if (this.includeBlog) {
-			this.copy('templates/default-hbs/views/blog.hbs', 'templates/views/blog.hbs');
-			this.copy('templates/default-hbs/views/post.hbs', 'templates/views/post.hbs');
-		}
-		
-		if (this.includeGallery) {
-			this.copy('templates/default-hbs/views/gallery.hbs', 'templates/views/gallery.hbs');
-		}
-		
-		if (this.includeEnquiries) {
-			this.copy('templates/default-hbs/views/contact.hbs', 'templates/views/contact.hbs');
-			if (this.includeEmail) {
-				this.copy('templates/default-hbs/emails/enquiry-notification.hbs', 'templates/emails/enquiry-notification.hbs');
-			}
-		}
-		
-	} else if (this.viewEngine === 'nunjucks') {
-		
-		// Copy Nunjucks Templates
-		
-		this.mkdir('templates');
-		this.mkdir('templates/views');
-		
-		this.directory('templates/default-' + this.viewEngine + '/layouts', 'templates/layouts');
-		this.directory('templates/default-' + this.viewEngine + '/mixins', 'templates/mixins');
-		this.directory('templates/default-' + this.viewEngine + '/views/errors', 'templates/views/errors');
-		
-		this.template('templates/default-' + this.viewEngine + '/views/index.html', 'templates/views/index.html');
-		
-		if (this.includeBlog) {
-			this.copy('templates/default-' + this.viewEngine + '/views/blog.html', 'templates/views/blog.html');
-			this.copy('templates/default-' + this.viewEngine + '/views/post.html', 'templates/views/post.html');
-		}
-		
-		if (this.includeGallery) {
-			this.copy('templates/default-' + this.viewEngine + '/views/gallery.html', 'templates/views/gallery.html');
-		}
-		
-		if (this.includeEnquiries) {
-			this.copy('templates/default-' + this.viewEngine + '/views/contact.html', 'templates/views/contact.html');
-			if (this.includeEmail) {
-				this.directory('templates/default-' + this.viewEngine + '/emails', 'templates/emails');
-			}
-		}
-		
-	} else {
-		
-		// Copy Jade/Swig Templates
-		
-		this.mkdir('templates');
-		this.mkdir('templates/views');
-		
-		this.directory('templates/default-' + this.viewEngine + '/layouts', 'templates/layouts');
-		this.directory('templates/default-' + this.viewEngine + '/mixins', 'templates/mixins');
-		this.directory('templates/default-' + this.viewEngine + '/views/errors', 'templates/views/errors');
-		
-		this.template('templates/default-' + this.viewEngine + '/views/index.' + this.viewEngine, 'templates/views/index.' + this.viewEngine);
-		
-		if (this.includeBlog) {
-			this.copy('templates/default-' + this.viewEngine + '/views/blog.' + this.viewEngine, 'templates/views/blog.' + this.viewEngine);
-			this.copy('templates/default-' + this.viewEngine + '/views/post.' + this.viewEngine, 'templates/views/post.' + this.viewEngine);
-		}
-		
-		if (this.includeGallery) {
-			this.copy('templates/default-' + this.viewEngine + '/views/gallery.' + this.viewEngine, 'templates/views/gallery.' + this.viewEngine);
-		}
-		
-		if (this.includeEnquiries) {
-			this.copy('templates/default-' + this.viewEngine + '/views/contact.' + this.viewEngine, 'templates/views/contact.' + this.viewEngine);
-			if (this.includeEmail) {
-				this.copy('templates/default-' + this.viewEngine + '/emails/enquiry-notification.' + this.viewEngine, 'templates/emails/enquiry-notification.' + this.viewEngine);
-			}
-		}
-	}
+	this.mkdir('app');
+	this.mkdir('app/utils');
+	this.mkdir('app/mixins');
 	
+	this.mkdir('app/actions');
+	this.copy('templates/default-react/actions/AppDataActionCreators.js', 'app/actions/AppDataActionCreators.js');
+
+	this.mkdir('app/constants');
+	this.copy('templates/default-react/constants/AppConstants.js', 'app/constants/AppConstants.js');
+
+	this.mkdir('app/dispatcher');
+	this.copy('templates/default-react/dispatcher/AppDispatcher.js', 'app/dispatcher/AppDispatcher.js');
+
+	this.mkdir('app/stores');
+	this.copy('templates/default-react/stores/PostStore.js', 'app/stores/PostStore.js');
+
+	this.mkdir('app/views');
+	this.copy('templates/default-react/views/index.jsx', 'app/views/index.jsx');
+
+	this.copy('templates/default-react/app.jsx', 'app/app.jsx');
+	this.copy('templates/default-react/html.jsx', 'app/html.jsx');   // the server html wrap
+	this.copy('templates/default-react/client.jsx', 'app/client.jsx');   // the client initializer
+	
+	this.copy('templates/webpack.config.js', 'webpack.config.js');
+
+	if (this.includeBlog) {
+		// Include blog and post views
+	}
+
+	if (this.includeGallery) {
+		// include gallery view
+	}
+
+	if (this.includeEnquiries) {
+		// include enquiry view
+	}
+
 };
 
-KeystoneGenerator.prototype.updates = function routes() {
+KeystoneGenerator.prototype.updates = function updates () {
 	
 	this.directory('updates');
 	

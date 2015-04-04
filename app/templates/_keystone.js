@@ -3,15 +3,11 @@
 require('dotenv').load();
 
 // Require keystone
-var keystone = require('keystone')<% if (viewEngine == 'hbs') { %>,
-	handlebars = require('express-handlebars')<% } else if (viewEngine == 'swig') { %>,
-	swig = require('swig')<% } else if (viewEngine == 'nunjucks') { %>,
-	cons = require('consolidate'),
-	nunjucks = require('nunjucks')<% } %>;
-<% if (viewEngine == 'swig') { %>
-// Disable swig's bulit-in template caching, express handles it
-swig.setDefaults({ cache: false });
-<% } if (includeGuideComments) { %>
+require('babel/register');
+var keystone = require('keystone')
+// var renderingEngine = require('./ReactRouterComponentRenderingEngine.js').createEngine();
+
+<% if (includeGuideComments) { %>
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
 // and documentation.
@@ -20,28 +16,13 @@ keystone.init({
 
 	'name': '<%= projectName %>',
 	'brand': '<%= projectName %>',
-	<% if (preprocessor === 'sass') { %>
-	'sass': 'public',
-	<% } else { %>
-	'less': 'public',
-	<% } %>'static': 'public',
+	'static': 'public',
 	'favicon': 'public/favicon.ico',
-	'views': 'templates/views',<% if (viewEngine === 'nunjucks') { %>
-	'view engine': 'html',
-	'custom engine': cons.nunjucks,
-	<% } else { %>
+	'views': 'app/views',    // TODO: this doesn't do anything, is it required?
 	'view engine': '<%= viewEngine %>',
-	<% } %><% if (viewEngine === 'hbs') { %>
-	'custom engine': handlebars.create({
-		layoutsDir: 'templates/views/layouts',
-		partialsDir: 'templates/views/partials',
-		defaultLayout: 'default',
-		helpers: new require('./templates/views/helpers')(),
-		extname: '.hbs'
-	}).engine,
-	<% } else if ( viewEngine === 'swig' ) { %>
-	'custom engine': swig.renderFile,
-	<% } %><% if (includeEmail) { %>
+	// 'custom engine': renderingEngine,
+	// 'mongo': process.env.MONGOLAB_URI || "mongodb://localhost/<%= projectName %>",
+	<% if (includeEmail) { %>
 	'emails': 'templates/emails',
 	<% } %>
 	'auto update': true,
@@ -69,7 +50,7 @@ keystone.set('locals', {
 <% if (includeGuideComments) { %>
 // Load your project's Routes
 <% } %>
-keystone.set('routes', require('./routes'));
+keystone.set('routes', require('./routes/index.js'));
 <% if (includeGuideComments) { %>
 // Setup common locals for your emails. The following are required by Keystone's
 // default email templates, you may remove them if you're using your own.
@@ -95,13 +76,13 @@ keystone.set('email locals', {
 // Be sure to update this rule to include your site's actual domain, and add
 // other rules your email templates require.
 <% } %>
-keystone.set('email rules', [{
-	find: '/images/',
-	replace: (keystone.get('env') == 'production') ? 'http://www.your-server.com/images/' : 'http://localhost:3000/images/'
-}, {
-	find: '/keystone/',
-	replace: (keystone.get('env') == 'production') ? 'http://www.your-server.com/keystone/' : 'http://localhost:3000/keystone/'
-}]);
+// keystone.set('email rules', [{
+// 	find: '/images/',
+// 	replace: (keystone.get('env') == 'production') ? 'http://www.your-server.com/images/' : 'http://localhost:3000/images/'
+// }, {
+// 	find: '/keystone/',
+// 	replace: (keystone.get('env') == 'production') ? 'http://www.your-server.com/keystone/' : 'http://localhost:3000/keystone/'
+// }]);
 <% if (includeGuideComments) { %>
 // Load your project's email test routes
 <% } %>
@@ -109,12 +90,12 @@ keystone.set('email tests', require('./routes/emails'));
 <% } %><% if (includeGuideComments) { %>
 // Configure the navigation bar in Keystone's Admin UI
 <% } %>
-keystone.set('nav', {
-	<% if (includeBlog) { %>'posts': ['posts', 'post-categories'],
-	<% } if (includeGallery) { %>'galleries': 'galleries',
-	<% } if (includeEnquiries) { %>'enquiries': 'enquiries',
-	<% } %>'<%= userModelPath %>': '<%= userModelPath %>'
-});
+// keystone.set('nav', {
+// 	<% if (includeBlog) { %>'posts': ['posts', 'post-categories'],
+// 	<% } if (includeGallery) { %>'galleries': 'galleries',
+// 	<% } if (includeEnquiries) { %>'enquiries': 'enquiries',
+// 	<% } %>'<%= userModelPath %>': '<%= userModelPath %>'
+// });
 <% if (includeGuideComments) { %>
 // Start Keystone to connect to your database and initialise the web server
 <% } %>

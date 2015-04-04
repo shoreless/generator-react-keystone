@@ -1,7 +1,7 @@
 {
-  "name": "generator-keystone",
+  "name": "generator-react-keystone",
   "version": "0.3.0",
-  "description": "A KeystoneJS Project Generator for Yeoman",
+  "description": "A React + KeystoneJS Project Generator for Yeoman",
   "keywords": [
     "yeoman-generator",
     "keystonejs",
@@ -15,16 +15,14 @@
     "site",
     "blog"
   ],
-  "homepage": "https://github.com/keystonejs/generator-keystone",
-  "bugs": "https://github.com/keystonejs/generator-keystone/issues",
   "author": {
-    "name": "Jed Watson",
-    "url": "https://github.com/JedWatson"
+    "name": "Sindre Seppola",
+    "url": "https://github.com/sseppola"
   },
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/keystonejs/generator-keystone.git"
+    "url": "git://github.com/sseppola/generator-react-keystone.git"
   },
   "scripts": {
     "test": "mocha"
