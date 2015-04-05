@@ -8,9 +8,13 @@ var React   = require('react');
 var Router  = require('react-router');
 var routes  = require('./routes');
 
-// Polyfills
+/* Styles */
+// require('styles/_site');
+
+/* Polyfills */
 require('whatwg-fetch');
 require('es6-promise').polyfill();
+
 
 var DataActions  = require('./actions/AppDataActionCreators');
 // var StateActions = require('./actions/AppStateActionCreators');

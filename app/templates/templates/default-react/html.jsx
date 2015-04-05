@@ -12,7 +12,7 @@ var Skeleton = React.createClass({
 
     var serverLocation = process.env.ENVIRONMENT === 'production'
       ? ''
-      : 'http://localhost:9090';
+      : 'http://localhost:8899/dist';
 
     /* Get the state of the app */
     var state = {
@@ -46,7 +46,7 @@ var Skeleton = React.createClass({
           <section id="app" dangerouslySetInnerHTML={{__html: innerHTML}} />
           <script dangerouslySetInnerHTML={{__html: reactState}} />
 
-          <script src={serverLocation + '/main.js'} type="text/javascript" />
+          <script src={serverLocation + '/site.js'} type="text/javascript" />
 
         </body>
       </html>

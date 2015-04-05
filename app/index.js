@@ -393,11 +393,16 @@ KeystoneGenerator.prototype.templates = function templates() {
 	this.mkdir('app/views');
 	this.copy('templates/default-react/views/index.jsx', 'app/views/index.jsx');
 
+	this.mkdir('app/style');
+	this.copy('templates/default-style/_site.scss', 'app/style/_site.scss');
+	this.copy('templates/default-style/_variables.scss', 'app/style/_variables.scss');
+
+
 	this.copy('templates/default-react/app.jsx', 'app/app.jsx');
 	this.copy('templates/default-react/html.jsx', 'app/html.jsx');   // the server html wrap
 	this.copy('templates/default-react/client.jsx', 'app/client.jsx');   // the client initializer
 	
-	this.copy('templates/webpack.config.js', 'webpack.config.js');
+	this.copy('webpack.config.js', 'webpack.config.js');
 
 	if (this.includeBlog) {
 		// Include blog and post views
@@ -426,10 +431,10 @@ KeystoneGenerator.prototype.files = function files() {
 	this.directory('public/js');
 	this.copy('public/favicon.ico');
 
-	if (this.preprocessor === 'sass') {
-		this.directory('public/styles-sass', 'public/styles');
-	} else {
-		this.directory('public/styles-less', 'public/styles');
-	}
+	// if (this.preprocessor === 'sass') {
+	// 	this.directory('public/styles-sass', 'public/styles');
+	// } else {
+	// 	this.directory('public/styles-less', 'public/styles');
+	// }
 	
 };
