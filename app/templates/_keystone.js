@@ -1,11 +1,12 @@
+require('babel/register');  // super important to require .jsx modules
+
 // Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
 require('dotenv').load();
 
 // Require keystone
-require('babel/register');
+
 var keystone = require('keystone')
-// var renderingEngine = require('./ReactRouterComponentRenderingEngine.js').createEngine();
 
 <% if (includeGuideComments) { %>
 // Initialise Keystone with your project's configuration.
@@ -20,7 +21,6 @@ keystone.init({
 	'favicon': 'public/favicon.ico',
 	'views': 'app/views',    // TODO: this doesn't do anything, is it required?
 	'view engine': '<%= viewEngine %>',
-	// 'custom engine': renderingEngine,
 	// 'mongo': process.env.MONGOLAB_URI || "mongodb://localhost/<%= projectName %>",
 	<% if (includeEmail) { %>
 	'emails': 'templates/emails',

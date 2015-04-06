@@ -1,7 +1,6 @@
-var keyMirror = require('keymirror');
+const keyMirror = require('keymirror');
 
-
-module.exports = {
+const constants = {
   ActionTypes: keyMirror({
     ADD_POSTS: null,
     CLEAR_POSTS: null,
@@ -11,4 +10,6 @@ module.exports = {
     SERVER_ACTION: null,
     VIEW_ACTION: null
   }),
-};
+}; 
+
+module.exports = constants;

@@ -1,51 +1,50 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var AppConstants = require('../constants/AppConstants');
+const _            = require('lodash');
+const Immutable    = require('immutable');
+const EventEmitter = require('events').EventEmitter;
+const assign       = require('object-assign');
 
-var _            = require('lodash');
-var assign       = require('object-assign');
-var Immutable    = require('immutable');
-var EventEmitter = require('events').EventEmitter;
+const AppDispatcher = require('../dispatcher/AppDispatcher');
+const AppConstants  = require('../constants/AppConstants');
 
-var ActionTypes  = AppConstants.ActionTypes;
-var CHANGE_EVENT = 'change';
-
-var _postMap = Immutable.Map();
+/* Constants for events */
+const ActionTypes  = AppConstants.ActionTypes;
+const CHANGE_EVENT = 'change';
 
 
-var PostStore = assign({}, EventEmitter.prototype, {
-  emitChange: function () {
-    this.emit(CHANGE_EVENT);
-  },
+/* The immutable postMap object */
+let _postMap = Immutable.Map();
 
-  addChangeListener: function (callback) {
+
+const PostStore = assign({}, EventEmitter.prototype, {
+  emitChange () { this.emit(CHANGE_EVENT); },
+
+  addChangeListener (callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function (callback) {
+  removeChangeListener (callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  get: function (id) {
-    // TODO: This should not call toJS before returning the post
+  get (id) {
+    // TODO: I don't want this to call toJS before returning the post
     return _postMap.toJS()[id];
   },
 
-  getPosts: function () {
-    return _postMap;
-  }
+  getPosts () { return _postMap; }
 
 });
 
 
 PostStore.dispatchToken = AppDispatcher.register(function(payload) {
-  var action = payload.action;
+  let action = payload.action;
 
   switch(action.type) {
 
     /* Add array of posts */
     case ActionTypes.ADD_POSTS:
       
-      var newMap = _postMap.withMutations(function (mutableMap) {
+      let newMap = _postMap.withMutations(function (mutableMap) {
         _.forEach(action.posts, function (post) {
           if (!mutableMap.has(post._id)) {
             post.publishedDate = Date.parse(post.publishedDate);

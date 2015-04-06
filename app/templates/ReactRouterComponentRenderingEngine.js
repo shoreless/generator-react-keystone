@@ -8,9 +8,9 @@
  */
 // This was copied and adapted from a Facebook rendering function, how does the licensing for that work?
 
+// This relies on babel to load .jsx files instead of node-jsx. babel is initialised in keystone.js
 
 var React   = require('react');
-var nodeJSX = require('node-jsx');
 var assign  = require('object-assign');
 
 
@@ -38,9 +38,6 @@ function createEngine(engineOptions) {
   // Since we're passing an object with jsx as the key, it'll override the rest.
   engineOptions = assign({}, DEFAULT_OPTIONS, engineOptions, {jsx: jsxOptions});
 
-  // Don't install the require until the engine is created. This lets us leave
-  // the option of using harmony features up to the consumer.
-  nodeJSX.install(engineOptions.jsx);
 
   var moduleDetectRegEx = new RegExp('\\' + engineOptions.jsx.extension + '$');
 

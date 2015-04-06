@@ -1,14 +1,18 @@
-var React         = require('react');
-var Router        = require('react-router');
+const React  = require('react');
+const Router = require('react-router');
+
 
 /* Router components */
-var Route         = Router.Route;
-var DefaultRoute  = Router.DefaultRoute;
-var NotFoundRoute = Router.NotFoundRoute;
+const Route         = Router.Route;
+const DefaultRoute  = Router.DefaultRoute;
+const NotFoundRoute = Router.NotFoundRoute;
 
-/* React Components */
-var App       = require('./app');
-var IndexView = require('./views/index');
+
+/* View handlers */
+const App       = require('./app');
+const IndexView = require('./views/index');
+
+
 
 <% if (includeBlog) { %>
   // blog view included
@@ -20,7 +24,7 @@ var IndexView = require('./views/index');
   // contact view included
 <% } %>
 
-var routes = (
+const routes = (
   <Route name="app" path="/" handler={App}>
     <DefaultRoute       handler={IndexView} />
   </Route>

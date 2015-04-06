@@ -51,7 +51,7 @@ var KeystoneGenerator = module.exports = function KeystoneGenerator(args, option
 	this.on('end', function () {
 		
 		this.installDependencies({
-			bower: false,
+			bower: true,
 			skipMessage: true,
 			skipInstall: options['skip-install'],
 			callback: done
@@ -160,16 +160,16 @@ KeystoneGenerator.prototype.prompts = function prompts() {
 		this.includeBlog = true;
 
 		// gallery, enquiries and email are not MVP
-		this.includeGallery = false;
+		this.includeGallery   = false;
 		this.includeEnquiries = false;
-		this.includeEmail = false;
+		this.includeEmail     = false;
 
 		
 		// Clean the userModel name
 		this.userModel     = utils.camelcase(this.userModel, false);
 		this.userModelPath = utils.keyToPath(this.userModel, true);
 		
-		// Using webpack, but gulp to bridge my webpack gap
+		// Main work is done my webpack, but gulp for smaller other tasks
 		this.taskRunner = 'gulp';
 
 		// Create the directory if required
@@ -397,9 +397,9 @@ KeystoneGenerator.prototype.templates = function templates() {
 	this.mkdir('app/views');
 	this.copy('templates/default-react/views/index.jsx', 'app/views/index.jsx');
 
-	this.mkdir('app/style');
-	this.copy('templates/default-style/_site.scss', 'app/style/_site.scss');
-	this.copy('templates/default-style/_variables.scss', 'app/style/_variables.scss');
+	this.mkdir('app/styles');
+	this.copy('templates/default-style/_site.scss', 'app/styles/_site.scss');
+	this.copy('templates/default-style/_variables.scss', 'app/styles/_variables.scss');
 
 
 	this.copy('templates/default-react/app.jsx', 'app/app.jsx');

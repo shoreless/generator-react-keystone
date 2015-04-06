@@ -1,17 +1,15 @@
 // app.jsx is the html rendered in the body, so the server
 // will wrap this in doctype, html and all that stuff
 
-var React        = require('react');
-var Router       = require('react-router');
-
-/* React components */
-var RouteHandler = Router.RouteHandler;
+const React        = require('react');
+const Router       = require('react-router');
+const RouteHandler = Router.RouteHandler;
 
 
-var App = React.createClass({
+const App = React.createClass({
 
-  render: function() {
-    console.log('[app.jsx]: render');
+  render () {
+    // console.log('[app.jsx]: render');
     return (
       <div>
         <header></header>
@@ -19,6 +17,7 @@ var App = React.createClass({
       </div>
     );
   }
+  
 });
 
 module.exports = App;

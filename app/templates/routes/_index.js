@@ -38,7 +38,7 @@ var api = {
 
 /* Function that redirects the routing to react-router */
 function reactRouter (req, res, next) {
-	console.log('[router/index]: ReactRouter');
+	// console.log('[router/index]: ReactRouter');
 	Router.run(routes, req.url, function (Handler, state) {
 
 		/* Initialise state for rendering */
@@ -61,7 +61,7 @@ function reactRouter (req, res, next) {
 
 /* Function that adds props to the flux data stores */
 function addPostsToStore (req, res, next) {
-	console.log('[router/index]: addPostsToStore');
+	// console.log('[router/index]: addPostsToStore');
 	var props = req.props;
 
 	/* Populate the stores with the data */
@@ -76,10 +76,10 @@ function addPostsToStore (req, res, next) {
 exports = module.exports = function (app) {
 	
 	// log request
-	app.all('/', function (req, res, next) {
-		console.log('[router/index]: Request for .... ' + req.path);
-		next();
-	});
+	// app.all('/', function (req, res, next) {
+	// 	console.log('[router/index]: Request path: ' + req.path);
+	// 	next();
+	// });
 
 	// ------------------------
 	// 						API

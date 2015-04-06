@@ -1,21 +1,19 @@
 // Note that this file only runs serverside
 
-var React     = require('react');
-var PostStore = require('./stores/PostStore');
+const React     = require('react');
+const PostStore = require('./stores/PostStore');
 
-var Skeleton = React.createClass({
-  render: function () {
-    var user = this.props.user;
-    var innerHTML = this.props.innerHTML;
-    
-    console.log('Environment: ' + process.env.ENVIRONMENT);
+const Skeleton = React.createClass({
+  render () {
+    let user = this.props.user;
+    const innerHTML = this.props.innerHTML;
 
-    var serverLocation = process.env.ENVIRONMENT === 'production'
+    const serverLocation = process.env.ENVIRONMENT === 'production'
       ? ''
       : 'http://localhost:8899/dist';
 
     /* Get the state of the app */
-    var state = {
+    let state = {
       posts: PostStore.getPosts().toArray()
     };
 
