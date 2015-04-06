@@ -12,12 +12,6 @@ var gutil            = require('gulp-util');
  */
 // var paths = {
 // 	src: ['./models/**/*.js','./routes/**/*.js', 'keystone.js', 'package.json'],
-// 	sass: {
-// 		main: './public/styles/site.scss',
-// 		appComponents: './app/**/*.scss',
-// 		dest: './public/styles'
-// 	}
-
 // };
 
 
@@ -36,24 +30,6 @@ var gutil            = require('gulp-util');
 // 		.pipe(jshint())
 // 		.pipe(jshint.reporter(jshintReporter));
 // });
-
-
-
-
-// Task that finds all stylesheets in the app folder and injects an import tag for it in site.scss
-// gulp.task('sass:inject', function () {
-//   gulp.src(paths.sass.main)
-//     .pipe(inject(gulp.src(paths.sass.appComponents, {read: false}), {
-//       starttag: '// inject:scss',
-//       endtag: '// endinject',
-//       relative: true,
-//       transform: function (filepath) {
-//         return '@import "' + filepath.slice(0, -5) + '";';
-//       }
-//     }))
-//     .pipe(gulp.dest(paths.sass.dest));
-// });
-
 
 
 
@@ -79,4 +55,4 @@ gulp.task("webpack-dev-server", function(callback) {
   });
 });
 
-gulp.task('dev', ['sass:inject', 'webpack-dev-server'])
+gulp.task('dev', ['webpack-dev-server'])

@@ -282,10 +282,14 @@ KeystoneGenerator.prototype.keys = function keys() {
 KeystoneGenerator.prototype.project = function project() {
 	
 	this.template('_package.json', 'package.json');
+	this.template('_bower.json', 'bower.json');
 	this.template('_env', '.env');
 	this.template('_jshintrc', '.jshintrc');
 	
 	this.template('_keystone.js', 'keystone.js');
+
+	this.copy('webpack.config.js', 'webpack.config.js');
+	this.copy('webpack-dev.config.js', 'webpack-dev.config.js');
 	
 	this.copy('editorconfig', '.editorconfig');
 	this.copy('gitignore', '.gitignore');
@@ -401,8 +405,7 @@ KeystoneGenerator.prototype.templates = function templates() {
 	this.copy('templates/default-react/app.jsx', 'app/app.jsx');
 	this.copy('templates/default-react/html.jsx', 'app/html.jsx');   // the server html wrap
 	this.copy('templates/default-react/client.jsx', 'app/client.jsx');   // the client initializer
-	
-	this.copy('webpack.config.js', 'webpack.config.js');
+
 
 	if (this.includeBlog) {
 		// Include blog and post views
