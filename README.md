@@ -45,9 +45,10 @@ Webpack builds extracts the styles based on `require('./component.scss')` calls 
 Note: This is a generator I set up for myself to allow me to scaffold new projects quickly, I want to keep developing it as I figure out better ways of doing things. Feel free to contribute.
 
 
-### Improvement
+### Improvements
 
 Here's a list of improvements I'm going to implement:
+- eslint based on [this](https://medium.com/@dan_abramov/lint-like-it-s-2015-6987d44c5b48) I think
 - This is the first time I've used webpack to build by stylesheets, so improvements must exist. 
 - React 0.13.x: Currently React 0.13.x breaks something due to upgrading React Router. This upgrade will be done soon
 - License
