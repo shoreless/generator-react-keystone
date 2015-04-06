@@ -36,11 +36,11 @@ If you don't have Node or MongoDB intalled, you can follow [the instructions of 
 
 ## Things to know
 
-The frontend app initialises in the browser through client.jsx, which renders app.jsx
+The frontend app initialises in the browser through client.jsx, which renders app.jsx. 
 
-The backend wraps html.jsx around the rendered app.jsx, and attaches the initial state in a script-tag
+The backend wraps html.jsx around the rendered app.jsx, and attaches the initial state in a script-tag. This is what allows it to be isomorphic.
 
-Webpack builds extracts the styles based on `require('./component.scss')` calls in the component chain of client.jsx. This means that you should write styles that can be loaded out of order.
+Webpack builds extracts the styles based on `require('./component.scss')` calls in the component chain of client.jsx. This means that you should write styles that can be loaded out of order. I built it based on Ben Smithett's blog post [Smarter CSS builds with Webpack](http://bensmithett.com/smarter-css-builds-with-webpack/).
 
 Note: This is a generator I set up for myself to allow me to scaffold new projects quickly, I want to keep developing it as I figure out better ways of doing things. Feel free to contribute.
 
@@ -48,7 +48,7 @@ Note: This is a generator I set up for myself to allow me to scaffold new projec
 ### Improvements
 
 Here's a list of improvements I'm going to implement:
-- eslint based on [this](https://medium.com/@dan_abramov/lint-like-it-s-2015-6987d44c5b48) I think
+- eslint, probably based on Dan Abramov's [Lint Like It's 2015](https://medium.com/@dan_abramov/lint-like-it-s-2015-6987d44c5b48)
 - This is the first time I've used webpack to build by stylesheets, so improvements must exist. 
 - React 0.13.x: Currently React 0.13.x breaks something due to upgrading React Router. This upgrade will be done soon
 - License
