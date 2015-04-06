@@ -1,0 +1,21 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    // I write for browser
+    "browser": true,
+    // in CommonJS
+    "node": true
+  },
+  "globals": {
+
+    },
+  // http://eslint.org/docs/rules/
+  "rules": {
+    "indent": [2, 2],
+    "quotes": [2, "single"],
+    "eol-last": [0],
+    "no-multi-spaces": [0],
+    "no-mixed-requires": [0],
+    "no-underscore-dangle": [0]
+  }
+}

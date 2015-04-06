@@ -292,6 +292,7 @@ KeystoneGenerator.prototype.project = function project() {
 	this.copy('webpack-dev.config.js', 'webpack-dev.config.js');
 	
 	this.copy('editorconfig', '.editorconfig');
+	this.copy('eslintrc', '.eslintrc');
 	this.copy('gitignore', '.gitignore');
 	this.copy('Procfile');
 	
