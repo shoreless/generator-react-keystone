@@ -1,109 +1,61 @@
-# Keystone Generator
+# React-Keystone Generator
 
-A [Yeoman](http://yeoman.io) generator for [KeystoneJS](http://keystonejs.com), the model-driven cms for node.js built on Express and MongoDB.
+This [Yeoman](http://yeoman.io) generator scaffolds an isomorpic [ReactJS](https://facebook.github.io/react/) and [KeystoneJS](http://keystonejs.com) project. 
 
-`yo keystone` will scaffold a new KeystoneJS project for you, and offer to set up blog, gallery, and enquiry (contact form) models + views.
+The goal of this project is to follow ReactJS best practice to saffold well performing isomorpic web app that is easy to get started with and extend.
 
-## Getting Started
+To do this I've combined
+- [Flux](https://github.com/facebook/flux)
+- [ImmutableJS](https://github.com/facebook/immutable-js)
+- [ReactRouter](https://github.com/rackt/react-router)
+- [Babel](https://babeljs.io/)
+- [Webpack](https://github.com/webpack/webpack)
 
-First up, you'll need Node.js >= 0.10.x and MongoDB >= 2.4.x installed. If you don't have them, follow the **Dependencies** instructions below.
-
-Then, install the Keystone generator:
-
-````
-$ npm install -g generator-keystone
-````
-
-If you see errors, check the [problems](#err-please-try-running-this-command-again-as-rootadministrator) section below.
-
-With the generator installed, create an empty directory for your new KeystoneJS Project, and run `yo keystone` in it:
-
-````
-$ mkdir myproject
-$ cd myproject
-$ yo keystone
-````
-
-The generator will ask you a few questions about which features to include, then prompt you for Cloudinary and Mandrill account details.
-
-**These accounts are optional**, but Cloudinary is used to host the images for the blog and gallery templates. You can get a free account for each at:
-
-* [Cloudinary](https://cloudinary.com/users/register/free) - Image serving and management in the cloud
-* [Mandrill](https://mandrill.com/signup/) - Transactional email service by [Mailchimp](http://mailchimp.com)
-
-### What next?
-
-When you've got your new project, check out the [KeystoneJS Documentation](http://keystonejs.com/docs) to learn more about how to get started with KeystoneJS.
-
-## Problems?
-
-### ERR! Please try running this command again as root/Administrator.
-
-When running `npm install -g generator-keystone`, you may get an **EACCES** error asking you to run the command again as root/Administrator. This indicates that there is a permissions issue.
-
-On your development system you can change directory ownership to the current $USER so you do not have to run `sudo` while installing untrusted code:
-
-````
-sudo chown -R $USER /usr/local
-
-# Other directories may be required depending on your O/S
-sudo chown -R $USER /usr/lib/node_modules/
-````
-
-For a production/shared environment you may wish to re-run the `npm` command with the `sudo` prefix:
-
-````
-sudo npm install -g generator-keystone
-````
-
-For more information, see the ["What, no sudo?"](http://foohack.com/2010/08/intro-to-npm/#what_no_sudo) of the Intro to npm by Isaac Schlueter.
-
-### What do you mean it couldn't find my Database?
-
-By default, KeystoneJS will look for a MongoDB server running on `localhost` on the default port, and connect to it. If you're getting errors related to the MongoDB connection, make sure your MongoDB server is running.
-
-If you haven't installed MongoDB yet, follow the instructions below.
-
-To connect to a server **other** than `localhost`, add a `MONGO_URI` setting to the `.env` file in your Keystone project directory:
-
-````
-MONGO_URI=mongodb://your-server/database-name
-````
+Also important: webpack-dev-server, webpack hot module replacement, SASS, autoprefixer, gulp, normalize (the sass version)
 
 
-## Dependencies
+## Quick start
 
-### Install Node.js
+You will need:
+- Node.js >= 0.10.x
+- MongoDB >= 2.4.x
+- Yeoman 
 
-Download and install the node.js binaries for your platform from the [Node.js download page](http://nodejs.org/download/).
+If you don't have Node or MongoDB intalled, you can follow [the instructions of the keystone generator](https://github.com/keystonejs/generator-keystone)
 
-### Install MongoDB
+`yo react-keystone` will scaffold a new project for you.
 
-If you're on a mac, the easiest way to install MongoDB is to use the [homebrew package manager for OS X](http://brew.sh/). To install it, run this in your terminal:
+`gulp dev` will start the webpack-dev-server which hosts the style and js of the front-end app (with hot-module-replacement)
 
-````
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-````
+`node keystone.js` will start the backend server
 
-With Homebrew installed, run this in your terminal to download and install MongoDB:
+`npm start` will run `gulp dev` and `node --harmony keystone.js` at the same time, but this makes it difficult to see logs
 
-````
-brew install mongodb
-````
+`npm build` or `gulp webpack` will build your front-end app and styles into dist/ minified
 
-This may generate a warning message
 
-'Warning: You have not agreed to the Xcode license.  Builds will fail! Agree to the license by opening Xcode.app or running: xcodebuild -license.'  If you see this message, run:
+## Things to know
 
-````
-sudo xcodebuild -license
-````
+The frontend app initialises in the browser through client.jsx, which renders app.jsx
 
-Hit 'enter' if prompted to view and agree to the licenses, navigate to the bottom using the 'space' key, then type 'agree' before attempting the install command again.
+The backend wraps html.jsx around the rendered app.jsx, and attaches the initial state in a script-tag
 
-For other platforms, see the [MongoDB installation guides](http://docs.mongodb.org/manual/installation/).
+Webpack builds extracts the styles based on `require('./component.scss')` calls in the component chain of client.jsx. This means that you should write styles that can be loaded out of order.
+
+Note: This is a generator I set up for myself to allow me to scaffold new projects quickly, I want to keep developing it as I figure out better ways of doing things. Feel free to contribute.
+
+
+### Improvement
+
+Here's a list of improvements I'm going to implement:
+- This is the first time I've used webpack to build by stylesheets, so improvements must exist. 
+- React 0.13.x: Currently React 0.13.x breaks something due to upgrading React Router. This upgrade will be done soon
+- License
+
 
 
 ## License
+
+This needs to be worked out properly..
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
