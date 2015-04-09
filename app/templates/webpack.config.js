@@ -1,10 +1,12 @@
 var webpack           = require('webpack');  
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path              = require('path');
 
 var ProdEnvPlugin = new webpack.DefinePlugin({
   'process.env': {
-    'NODE_ENV': JSON.stringify('production')
+    'NODE_ENV': JSON.stringify('production'),
+    // INCLUDE_STYLES: Adds style require() calls to the components to prevent them from being required on the server
+    'INCLUDE_STYLES': JSON.stringify(true)
   }
 });
 
@@ -24,7 +26,7 @@ module.exports = {
 
     output: {
         path: __dirname + '/dist',
-        filename: "[name].js",
+        filename: '[name].js',
         publicPath: 'dist/'
     },
 
@@ -37,8 +39,8 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.jsx?$/, loaders: ['babel'], exclude: /node_modules/ },
-            { test: /\.scss$/, loader: ExtractTextPlugin.extract("style-loader", sassLoaders.join('!')) },
-            { test: /\.css$/,  loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
+            { test: /\.scss$/, loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!')) },
+            { test: /\.css$/,  loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
         ]
     },
     
@@ -46,7 +48,7 @@ module.exports = {
       ProdEnvPlugin,
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.UglifyJsPlugin({compress: {warnings: false}}),
-      new ExtractTextPlugin("[name].css"),
+      new ExtractTextPlugin('[name].css'),
       new webpack.NoErrorsPlugin()    // don't reload if there are errors
     ]
 

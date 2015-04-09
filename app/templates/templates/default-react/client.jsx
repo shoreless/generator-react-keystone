@@ -3,7 +3,8 @@
 // which webpack finds and bundles for us
 
 /* Styles */
-require('./styles/_site');
+const requireStyles = require('./utils/require_styles');
+requireStyles && require('./styles/_site');
 
 /* Polyfills */
 require('whatwg-fetch');

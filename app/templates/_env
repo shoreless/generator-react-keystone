@@ -1,3 +1,4 @@
 <% if (cloudinaryURL) { %>CLOUDINARY_URL=<%= cloudinaryURL %>
 <% } if (mandrillAPI) { %>MANDRILL_API_KEY=<%= mandrillAPI %><% } %>
+INCLUDE_STYLES=false
 ENVIRONMENT=development
