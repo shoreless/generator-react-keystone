@@ -2,9 +2,7 @@
 // It is self contained as the router links everything else that is needed
 // which webpack finds and bundles for us
 
-/* Styles */
-const requireStyles = require('./utils/require_styles');
-requireStyles && require('./styles/_site');
+require('./styles/site.scss');
 
 /* Polyfills */
 require('whatwg-fetch');
@@ -18,7 +16,7 @@ const DataActions = require('./actions/AppDataActionCreators');
 document.addEventListener('DOMContentLoaded', function () {
   console.log('The DOM loaded, running react router to reinitialise');
 
-  React.initializeTouchEvents(true)
+  React.initializeTouchEvents(true);
 
   // initialReactState is a global variable from the appended script tag
   const initialReactState = window.initialReactState;

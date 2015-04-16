@@ -1,12 +1,10 @@
-var webpack           = require('webpack');  
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var webpack           = require('webpack');
 var path              = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var DevEnvPlugin = new webpack.DefinePlugin({
   'process.env': {
-    'NODE_ENV': JSON.stringify('development'),
-    // INCLUDE_STYLES: Adds style require() calls to the components to prevent them from being required on the server
-    'INCLUDE_STYLES': JSON.stringify(true)
+    'NODE_ENV': JSON.stringify('development')
   }
 });
 
@@ -15,41 +13,47 @@ var sassLoaders = [
   'autoprefixer-loader' +
     '?browsers=last 2 version',
   'sass-loader' +
-    '?includePaths[]=' + path.resolve(__dirname, "./app")    // includes app dir for libsass
+    '?includePaths[]=' + path.resolve(__dirname, './app')    // includes app dir for libsass
 ];
 
-module.exports = {  
+module.exports = {
 
-    entry: {
-      site: './app/client.jsx',
-    },
-
-    output: {
-        path: __dirname + '/dist',
-        filename: '[name].js',
-        publicPath: 'dist/'
-    },
-
-    resolve: {
-        // Allow to omit extensions when requiring these files
-        extensions: ['', '.js', '.jsx', '.css', '.scss'],
-        modulesDirectories: ['node_modules', 'bower_components']
-    },
-
-    module: {
-        loaders: [
-            // { test: /\.jsx$/,  loaders: ['react-hot', 'jsx-loader?harmony'], exclude: /node_modules/ },
-            { test: /\.jsx?$/,  loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
-            { test: /\.scss$/, loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!')) },
-            { test: /\.css$/,  loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
-        ]
-    },
-    
-    plugins: [
-      DevEnvPlugin,
-      new ExtractTextPlugin('[name].css'),
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin()    // don't reload if there are errors
+  entry: {
+    site: [
+      'webpack/hot/dev-server',
+      './app/client.jsx'
     ]
+  },
+
+  debug: true,
+  devtool: 'eval',
+
+  output: {
+    path: __dirname + '/dist',
+    filename: '[name].js',
+    publicPath: 'dist/'
+  },
+
+  resolve: {
+    // Allow to omit extensions when requiring these files
+    extensions: ['', '.css', '.scss', '.js', '.jsx'],
+    modulesDirectories: ['node_modules', 'bower_components', 'assets', 'app']
+  },
+
+  module: {
+    loaders: [
+      { test: /\.jsx?$/,  loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
+      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!')) },
+      { test: /\.css$/,  loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
+      { test: /\.(jpg|png)$/,  loader: 'url-loader?limit=8192' }
+    ]
+  },
+
+  plugins: [
+    DevEnvPlugin,
+    new ExtractTextPlugin('[name].css'),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()    // don't reload if there are errors
+  ]
 
 };

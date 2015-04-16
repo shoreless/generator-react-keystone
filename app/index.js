@@ -7,20 +7,19 @@ var yeoman = require('yeoman-generator');
 
 
 var KeystoneGenerator = module.exports = function KeystoneGenerator(args, options, config) {
-	
+
 	// Set utils for use in templates
 	this.utils = utils;
-	
+
 	// Initialise default values
 	this.cloudinaryURL = false;
 	this.mandrillAPI = false;
-	
+
 	// Apply the Base Generator
 	yeoman.generators.Base.apply(this, arguments);
-	
-	// Welcome
+
 	console.log('\nWelcome to KeystoneJS.\n');
-	
+
 	// This callback is fired when the generator has completed,
 	// and includes instructions on what to do next.
 	var done = _.bind(function done() {
@@ -44,49 +43,42 @@ var KeystoneGenerator = module.exports = function KeystoneGenerator(args, option
 
 			'\n\nTo start your new website, run ' + cmd + '.' +
 			'\n');
-		
+
 	}, this);
-	
+
 	// Install Dependencies when done
 	this.on('end', function () {
-		
+
 		this.installDependencies({
 			bower: true,
 			skipMessage: true,
 			skipInstall: options['skip-install'],
 			callback: done
 		});
-		
+
 	});
-	
+
 	// Import Package.json
 	this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
-	
+
 };
 
 // Extends the Base Generator
 util.inherits(KeystoneGenerator, yeoman.generators.Base);
 
 KeystoneGenerator.prototype.prompts = function prompts() {
-	
+
 	var cb = this.async();
-	
+
 	var prompts = {
-		
+
 		project: [
 			{
 				name: 'projectName',
 				message: 'What is the name of your project?',
 				default: 'My Site'
 			}, {
-			// 	name: 'viewEngine',
-			// 	message: 'Would you like to use Jade, Swig, Nunjucks or Handlebars for templates? ' + (('[jade | swig | nunjucks | hbs]').grey),
-			// 	default: 'jade'
-			// }, {
-			// 	name: 'preprocessor',
-			// 	message: 'Would you like to use LESS or SASS for stylesheets? ' + (('[sass | less]').grey),
-			// 	default: 'sass'
-			// }, {
+
 			// 	type: 'confirm',
 			// 	name: 'includeBlog',
 			// 	message: 'Would you like to include a Blog?',
@@ -114,9 +106,6 @@ KeystoneGenerator.prototype.prompts = function prompts() {
 				message: 'Enter a password for the first Admin user:',
 				default: 'admin'
 			}, {
-			// 	name: 'taskRunner',
-			// 	message: 'Would you like to include gulp or grunt? ' + (('[gulp | grunt]').grey),
-			// }, {
 				type: 'confirm',
 				name: 'newDirectory',
 				message: 'Would you like to create a new directory for your project?',
@@ -162,7 +151,7 @@ KeystoneGenerator.prototype.prompts = function prompts() {
 		// gallery, enquiries and email are not MVP
 		this.includeGallery   = false;
 		this.includeEnquiries = false;
-		this.includeEmail     = false;
+		this.includeEmail     = false;    // include component and empty mandrill keystone config ?
 
 		
 		// Clean the userModel name
@@ -288,23 +277,17 @@ KeystoneGenerator.prototype.project = function project() {
 	
 	this.template('_keystone.js', 'keystone.js');
 
+	this.copy('Dockerfile', 'Dockerfile');
+
 	this.copy('webpack.config.js', 'webpack.config.js');
 	this.copy('webpack-dev.config.js', 'webpack-dev.config.js');
 	
 	this.copy('editorconfig', '.editorconfig');
 	this.copy('eslintrc', '.eslintrc');
 	this.copy('gitignore', '.gitignore');
-	this.copy('Procfile');
+	// TODO: docker ignore
 	
-	if (this.taskRunner === 'grunt') {
-		this.copy('Gruntfile.js');
-		this.directory('grunt', 'grunt');
-	}
-	
-	if (this.taskRunner === 'gulp'){
-		this.copy('gulpfile.js');
-	}
-	
+	this.copy('gulpfile.js');
 };
 
 
@@ -341,6 +324,7 @@ KeystoneGenerator.prototype.models = function models() {
 KeystoneGenerator.prototype.routes = function routes() {
 	
 	// Copy React Router Component rendering function
+	// TODO: remove this
 	this.copy('ReactRouterComponentRenderingEngine.js', './ReactRouterComponentRenderingEngine.js');
 
 
@@ -389,6 +373,8 @@ KeystoneGenerator.prototype.templates = function templates() {
 	this.mkdir('app/constants');
 	this.copy('templates/default-react/constants/AppConstants.js', 'app/constants/AppConstants.js');
 
+	this.mkdir('app/components');
+
 	this.mkdir('app/dispatcher');
 	this.copy('templates/default-react/dispatcher/AppDispatcher.js', 'app/dispatcher/AppDispatcher.js');
 
@@ -399,8 +385,8 @@ KeystoneGenerator.prototype.templates = function templates() {
 	this.copy('templates/default-react/views/index.jsx', 'app/views/index.jsx');
 
 	this.mkdir('app/styles');
-	this.copy('templates/default-style/_site.scss', 'app/styles/_site.scss');
-	this.copy('templates/default-style/_variables.scss', 'app/styles/_variables.scss');
+	this.copy('templates/default-style/site.scss', 'app/styles/site.scss');
+	this.copy('templates/default-style/variables.scss', 'app/styles/variables.scss');
 
 
 	this.copy('templates/default-react/app.jsx', 'app/app.jsx');
@@ -434,11 +420,5 @@ KeystoneGenerator.prototype.files = function files() {
 	this.directory('public/images');
 	this.directory('public/js');
 	this.copy('public/favicon.ico');
-
-	// if (this.preprocessor === 'sass') {
-	// 	this.directory('public/styles-sass', 'public/styles');
-	// } else {
-	// 	this.directory('public/styles-less', 'public/styles');
-	// }
 	
 };
