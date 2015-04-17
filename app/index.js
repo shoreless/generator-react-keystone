@@ -279,15 +279,15 @@ KeystoneGenerator.prototype.project = function project() {
 
   this.template('_keystone.js', 'keystone.js');
 
-  this.copy('Dockerfile', 'Dockerfile');
+  this.copy('Dockerfile');
 
-  this.copy('webpack.config.js', 'webpack.config.js');
-  this.copy('webpack-dev.config.js', 'webpack-dev.config.js');
+  this.copy('webpack.config.js');
+  this.copy('webpack-dev.config.js');
 
   this.copy('editorconfig', '.editorconfig');
   this.copy('eslintrc', '.eslintrc');
   this.copy('gitignore', '.gitignore');
-  // TODO: docker ignore
+  this.copy('dockerignore', '.dockerignore');
 
   this.copy('gulpfile.js');
 };
