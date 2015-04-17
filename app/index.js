@@ -412,9 +412,8 @@ KeystoneGenerator.prototype.updates = function updates () {
 
 KeystoneGenerator.prototype.files = function files() {
 
-  this.directory('public/fonts');
-  this.directory('public/images');
-  this.directory('public/js');
-  this.copy('public/favicon.ico');
+  this.directory('assets/fonts');
+  this.directory('assets/images');
+  this.copy('assets/favicon.ico');
 
 };
