@@ -305,13 +305,12 @@ KeystoneGenerator.prototype.models = function models() {
     modelFiles.push('PostCategory');
   }
 
-  if (this.includeGallery) {
+  if (this.includeGallery)
     modelFiles.push('Gallery');
-  }
 
-  if (this.includeEnquiries) {
+  if (this.includeEnquiries)
     modelFiles.push('Enquiry');
-  }
+
 
   this.mkdir('models');
 
@@ -324,11 +323,6 @@ KeystoneGenerator.prototype.models = function models() {
 };
 
 KeystoneGenerator.prototype.routes = function routes() {
-
-  // Copy React Router Component rendering function
-  // TODO: remove this
-  this.copy('ReactRouterComponentRenderingEngine.js', './ReactRouterComponentRenderingEngine.js');
-
 
   // Create react routes file
   this.template('templates/default-react/_routes.jsx', 'app/routes.jsx');
