@@ -7,14 +7,17 @@
     "node": true
   },
   "globals": {
-
-    },
+    "require": true
+  },
   // http://eslint.org/docs/rules/
   "rules": {
+    "curly": [2, "multi"],
     "indent": [2, 2],
     "quotes": [2, "single"],
     "eol-last": [0],
     "no-multi-spaces": [0],
+    "key-spacing": [0],
+    "quotes": [2, 'single'],
     "no-mixed-requires": [0],
     "no-underscore-dangle": [0]
   }
