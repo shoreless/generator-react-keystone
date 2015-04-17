@@ -80,22 +80,6 @@ KeystoneGenerator.prototype.prompts = function prompts() {
         message: 'What is the name of your project?',
         default: 'My Site'
       }, {
-
-      //  type: 'confirm',
-      //  name: 'includeBlog',
-      //  message: 'Would you like to include a Blog?',
-      //  default: true
-      // }, {
-      //  type: 'confirm',
-      //  name: 'includeGallery',
-      //  message: 'Would you like to include an Image Gallery?',
-      //  default: true
-      // }, {
-      //  type: 'confirm',
-      //  name: 'includeEnquiries',
-      //  message: 'Would you like to include a Contact Form?',
-      //  default: true
-      // }, {
         name: 'userModel',
         message: 'What would you like to call the User model?',
         default: 'User'
@@ -112,14 +96,6 @@ KeystoneGenerator.prototype.prompts = function prompts() {
         name: 'newDirectory',
         message: 'Would you like to create a new directory for your project?',
         default: true
-      // }, {
-      //  type: 'confirm',
-      //  name: 'includeEmail',
-      //  message: '------------------------------------------------' +
-      //    '\n    KeystoneJS integrates with Mandrill (from Mailchimp) for email sending.' +
-      //    '\n    Mandrill accounts are free for up to 12k emails per month.' +
-      //    '\n    Would you like to include Email configuration in your project?',
-      //  default: true
       }
     ],
 
@@ -141,37 +117,18 @@ KeystoneGenerator.prototype.prompts = function prompts() {
     this.adminLogin    = utils.escapeString(this.adminLogin);
     this.adminPassword = utils.escapeString(this.adminPassword);
 
-    // Only using react
-    this.viewEngine = 'jsx';
-
-    // Due to lack of understanding of less, sass is the only option
-    this.preprocessor = 'sass';
-
-    // This is to include the posts model, which is MVP for this generator
-    this.includeBlog = true;
-
-    // gallery, enquiries and email are not MVP
-    this.includeGallery   = false;
-    this.includeEnquiries = false;
-    this.includeEmail     = false;    // include component and empty mandrill keystone config ?
-
-
     // Clean the userModel name
     this.userModel     = utils.camelcase(this.userModel, false);
     this.userModelPath = utils.keyToPath(this.userModel, true);
-
-    // Main work is done my webpack, but gulp for smaller other tasks
-    this.taskRunner = 'gulp';
 
     // Create the directory if required
     if (this.newDirectory) {
       this.destinationRoot(utils.slug(this.projectName));
     }
 
-    // Not need at this stage
+    // TODO: configs for Mandrill and Cloudinary
     // Additional prompts may be required, based on selections
     // if (this.includeBlog || this.includeGallery || this.includeEmail) {
-
     //  if (this.includeEmail) {
     //    prompts.config.push({
     //      name: 'mandrillAPI',
@@ -186,15 +143,6 @@ KeystoneGenerator.prototype.prompts = function prompts() {
     //  }
 
     //  if (this.includeBlog || this.includeGallery) {
-
-    //    var blog_gallery = 'blog and gallery templates';
-
-    //    if (!this.includeBlog) {
-    //      blog_gallery = 'gallery template';
-    //    } else if (!this.includeGallery) {
-    //      blog_gallery = 'blog template';
-    //    }
-
     //    prompts.config.push({
     //      name: 'cloudinaryURL',
     //      message: '------------------------------------------------' +
@@ -240,6 +188,10 @@ KeystoneGenerator.prototype.prompts = function prompts() {
 
 };
 
+
+/*
+ * Prompt to include guide comments
+*/
 KeystoneGenerator.prototype.guideComments = function() {
 
   var cb = this.async();
@@ -262,14 +214,19 @@ KeystoneGenerator.prototype.guideComments = function() {
 
 };
 
+
+/*
+ * Key generator
+*/
 KeystoneGenerator.prototype.keys = function keys() {
-
   var cookieSecretChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz!@#$%^&*()-=_+[]{}|;:",./<>?`~';
-
-  this.cookieSecret = utils.randomString(64, cookieSecretChars);
-
+  this.cookieSecret     = utils.randomString(64, cookieSecretChars);
 };
 
+
+/*
+ * Create the project files
+*/
 KeystoneGenerator.prototype.project = function project() {
 
   this.template('_package.json', 'package.json');
@@ -280,16 +237,16 @@ KeystoneGenerator.prototype.project = function project() {
   this.template('_keystone.js', 'keystone.js');
 
   this.copy('Dockerfile');
+  this.copy('dockerignore', '.dockerignore');
 
+  this.copy('gulpfile.js');
   this.copy('webpack.config.js');
   this.copy('webpack-dev.config.js');
 
   this.copy('editorconfig', '.editorconfig');
   this.copy('eslintrc', '.eslintrc');
   this.copy('gitignore', '.gitignore');
-  this.copy('dockerignore', '.dockerignore');
-
-  this.copy('gulpfile.js');
+  
 };
 
 
@@ -298,22 +255,9 @@ KeystoneGenerator.prototype.project = function project() {
 */
 KeystoneGenerator.prototype.models = function models() {
 
-  var modelFiles = [];
-
-  if (this.includeBlog) {
-    modelFiles.push('Post');
-    modelFiles.push('PostCategory');
-  }
-
-  if (this.includeGallery)
-    modelFiles.push('Gallery');
-
-  if (this.includeEnquiries)
-    modelFiles.push('Enquiry');
-
+  var modelFiles = ['Post', 'PostCategory'];
 
   this.mkdir('models');
-
   this.template('models/_User.js', 'models/' + this.userModel + '.js');
 
   modelFiles.forEach(function(i) {
@@ -322,10 +266,14 @@ KeystoneGenerator.prototype.models = function models() {
 
 };
 
+
+/*
+ * Create the route files
+*/
 KeystoneGenerator.prototype.routes = function routes() {
 
   // Create react routes file
-  this.template('templates/default-react/_routes.jsx', 'app/routes.jsx');
+  this.copy('templates/default-react/routes.jsx', 'app/routes.jsx');
 
   this.mkdir('routes');
   this.template('routes/_index.js', 'routes/index.js');
@@ -333,30 +281,12 @@ KeystoneGenerator.prototype.routes = function routes() {
   this.mkdir('routes/api');
   this.copy('routes/api/index.js', 'routes/api/index.js');
 
-  // this.template('routes/_index.js', 'routes/index.js');
-  // this.template('routes/_middleware.js', 'routes/middleware.js');
-
-  // if (this.includeEmail) {
-  //  this.template('routes/_emails.js', 'routes/emails.js');
-  // }
-
-  // this.copy('routes/views/index.js');
-
-  // if (this.includeBlog) {
-  //  this.copy('routes/views/blog.js');
-  //  this.copy('routes/views/post.js');
-  // }
-
-  // if (this.includeGallery) {
-  //  this.copy('routes/views/gallery.js');
-  // }
-
-  // if (this.includeEnquiries) {
-  //  this.copy('routes/views/contact.js');
-  // }
-
 };
 
+
+/*
+ * Create the app files and hierarchy
+*/
 KeystoneGenerator.prototype.templates = function templates() {
 
   this.mkdir('app');
@@ -389,31 +319,22 @@ KeystoneGenerator.prototype.templates = function templates() {
   this.copy('templates/default-react/html.jsx', 'app/html.jsx');   // the server html wrap
   this.copy('templates/default-react/client.jsx', 'app/client.jsx');   // the client initializer
 
-
-  if (this.includeBlog) {
-    // Include blog and post views
-  }
-
-  if (this.includeGallery) {
-    // include gallery view
-  }
-
-  if (this.includeEnquiries) {
-    // include enquiry view
-  }
-
 };
 
+
+/*
+ * Copy the updates directory
+*/
 KeystoneGenerator.prototype.updates = function updates () {
-
   this.directory('updates');
-
 };
 
-KeystoneGenerator.prototype.files = function files() {
 
+/*
+ * Copy the asset files
+*/
+KeystoneGenerator.prototype.files = function files() {
   this.directory('assets/fonts');
   this.directory('assets/images');
   this.copy('assets/favicon.ico');
-
 };

@@ -21,7 +21,6 @@
 
 <% } %>
 var keystone     = require('keystone');
-// var middleware   = require('./middleware');
 var Router       = require('react-router');
 var objectAssign = require('object-assign');
 
@@ -30,13 +29,9 @@ var AppDataActions = require('../app/actions/AppDataActionCreators');
 var htmlSkeleton   = require('../app/html');
 
 
-
 var api = {
 	index: require('./api/index')
 };
-
-
-
 
 
 /* Function that redirects the routing to react-router */
@@ -115,19 +110,6 @@ exports = module.exports = function (app) {
 		// '/post/:_id'
 	], addPostsToStore, reactRouter);
 
-
-	<% if (includeBlog) { %>
-		// app.get('/blog/:category?', routes.views.blog);
-		// app.get('/blog/post/:post', routes.views.post);
-	<% } %>
-
-	<% if (includeGallery) { %>
-		// app.get('/gallery', routes.views.gallery);
-	<% } %>
-
-	<% if (includeEnquiries) { %>
-		// app.all('/contact', routes.views.contact);
-	<% } %>
 
 	<% if (includeGuideComments) { %>
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
